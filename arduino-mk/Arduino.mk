@@ -567,12 +567,12 @@ $(OBJDIR)/%.d: %.s
 # We should check for Arduino version, if the file is .pde because a .pde file might be used in Arduino 1.0
 # the pde -> cpp -> o file
 $(OBJDIR)/%.cpp: %.pde
-	$(ECHO) '#if ARDUINO >= 100\n    #include "Arduino.h"\n#else\n    #include "WProgram.h"\n#endif' > $@
+	$(ECHO) '#if ARDUINO >= 100\n    #include "Arduino.h"\n#else\n    #include "WProgram.h"\n#endif\n#line 1' > $@
 	$(CAT)  $< >> $@
 
 # the ino -> cpp -> o file
 $(OBJDIR)/%.cpp: %.ino
-	$(ECHO) '#include <Arduino.h>' > $@
+	$(ECHO) '#include <Arduino.h>\n#line 1' > $@
 	$(CAT)  $< >> $@
 
 $(OBJDIR)/%.o: $(OBJDIR)/%.cpp
