@@ -581,7 +581,7 @@ NM      = $(AVR_TOOLS_PATH)/avr-nm
 REMOVE  = rm -rf
 MV      = mv -f
 CAT     = cat
-ECHO    = echo
+ECHO    = echo -e
 
 # General arguments
 USER_LIBS     = $(wildcard $(patsubst %,$(USER_LIB_PATH)/%,$(ARDUINO_LIBS)))
