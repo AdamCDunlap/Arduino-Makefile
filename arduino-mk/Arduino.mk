@@ -702,7 +702,7 @@ $(call show_separator)
 # library sources
 $(OBJDIR)/libs/%.o: $(ARDUINO_LIB_PATH)/%.c
 	mkdir -p $(dir $@)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $< -o $@
 
 $(OBJDIR)/libs/%.o: $(ARDUINO_LIB_PATH)/%.cpp
 	mkdir -p $(dir $@)
@@ -710,17 +710,17 @@ $(OBJDIR)/libs/%.o: $(ARDUINO_LIB_PATH)/%.cpp
 
 $(OBJDIR)/libs/%.o: $(USER_LIB_PATH)/%.cpp
 	mkdir -p $(dir $@)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $< -o $@
+	$(CC) -c $(CPPFLAGS) $< -o $@
 
 $(OBJDIR)/libs/%.o: $(USER_LIB_PATH)/%.c
 	mkdir -p $(dir $@)
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $< -o $@
 
 # normal local sources
 # .o rules are for objects, .d for dependency tracking
 # there seems to be an awful lot of duplication here!!!
 $(OBJDIR)/%.o: %.c
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $< -o $@
 
 $(OBJDIR)/%.o: %.cc
 	$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
@@ -735,7 +735,7 @@ $(OBJDIR)/%.o: %.s
 	$(CC) -c $(CPPFLAGS) $(ASFLAGS) $< -o $@
 
 $(OBJDIR)/%.d: %.c
-	$(CC) -MM $(CPPFLAGS) $(CFLAGS) $< -MF $@ -MT $(@:.d=.o)
+	$(CC) -MM $(CFLAGS) $< -MF $@ -MT $(@:.d=.o)
 
 $(OBJDIR)/%.d: %.cc
 	$(CXX) -MM $(CPPFLAGS) $(CXXFLAGS) $< -MF $@ -MT $(@:.d=.o)
@@ -769,7 +769,7 @@ $(OBJDIR)/%.d: $(OBJDIR)/%.cpp
 
 # core files
 $(OBJDIR)/%.o: $(ARDUINO_CORE_PATH)/%.c
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $< -o $@
 
 $(OBJDIR)/%.o: $(ARDUINO_CORE_PATH)/%.cpp
 	$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
