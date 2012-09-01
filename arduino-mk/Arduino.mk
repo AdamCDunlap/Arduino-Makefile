@@ -650,7 +650,7 @@ USER_LIB_OBJS = $(patsubst $(USER_LIB_PATH)/%.cpp,$(OBJDIR)/libs/%.o,$(USER_LIB_
 # Using += instead of =, so that CPPFLAGS can be set per sketch level
 CPPFLAGS      += -mmcu=$(MCU) -DF_CPU=$(F_CPU) -DARDUINO=$(ARDUINO_VERSION) \
 			-I. -I$(ARDUINO_CORE_PATH) -I$(ARDUINO_VAR_PATH)/$(VARIANT) \
-			$(SYS_INCLUDES) $(USER_INCLUDES) -g -Os -Wall \
+			$(SYS_INCLUDES) $(USER_INCLUDES) \
 			-ffunction-sections -fdata-sections
 CFLAGS        += -std=gnu99 
 CXXFLAGS      += -fno-exceptions
@@ -702,7 +702,7 @@ $(call show_separator)
 # library sources
 $(OBJDIR)/libs/%.o: $(ARDUINO_LIB_PATH)/%.c
 	mkdir -p $(dir $@)
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
 
 $(OBJDIR)/libs/%.o: $(ARDUINO_LIB_PATH)/%.cpp
 	mkdir -p $(dir $@)
@@ -710,17 +710,17 @@ $(OBJDIR)/libs/%.o: $(ARDUINO_LIB_PATH)/%.cpp
 
 $(OBJDIR)/libs/%.o: $(USER_LIB_PATH)/%.cpp
 	mkdir -p $(dir $@)
-	$(CC) -c $(CPPFLAGS) $< -o $@
+	$(CC) -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 $(OBJDIR)/libs/%.o: $(USER_LIB_PATH)/%.c
 	mkdir -p $(dir $@)
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
 
 # normal local sources
 # .o rules are for objects, .d for dependency tracking
 # there seems to be an awful lot of duplication here!!!
 $(OBJDIR)/%.o: %.c
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
 
 $(OBJDIR)/%.o: %.cc
 	$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
@@ -735,7 +735,7 @@ $(OBJDIR)/%.o: %.s
 	$(CC) -c $(CPPFLAGS) $(ASFLAGS) $< -o $@
 
 $(OBJDIR)/%.d: %.c
-	$(CC) -MM $(CFLAGS) $< -MF $@ -MT $(@:.d=.o)
+	$(CC) -MM $(CFLAGS) $(CPPFLAGS) $< -MF $@ -MT $(@:.d=.o)
 
 $(OBJDIR)/%.d: %.cc
 	$(CXX) -MM $(CPPFLAGS) $(CXXFLAGS) $< -MF $@ -MT $(@:.d=.o)
@@ -769,7 +769,7 @@ $(OBJDIR)/%.d: $(OBJDIR)/%.cpp
 
 # core files
 $(OBJDIR)/%.o: $(ARDUINO_CORE_PATH)/%.c
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
 
 $(OBJDIR)/%.o: $(ARDUINO_CORE_PATH)/%.cpp
 	$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
