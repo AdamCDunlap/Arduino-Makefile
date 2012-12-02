@@ -291,18 +291,21 @@ dir_if_exists = $(if $(wildcard $(1)$(2)),$(1))
 space_pad_to = $(shell echo $(1) "                                                      " | head -c$(2))
 
 # Call with some text, and a prefix tag if desired (like [AUTODETECTED]),
-show_config_info = $(info - $(call space_pad_to,$(2),20) $(1))
+#show_config_info = $(info - $(call space_pad_to,$(2),20) $(1))
+show_config_info =
 
 # Call with the name of the variable, a prefix tag if desired (like [AUTODETECTED]),
 # and an explanation if desired (like (found in $$PATH)
-show_config_variable = $(call show_config_info,$(1) = $($(1)) $(3),$(2))
+#show_config_variable = $(call show_config_info,$(1) = $($(1)) $(3),$(2))
+show_config_varaible = 
 
 # Just a nice simple visual separator
-show_separator = $(info -------------------------)
+#show_separator = $(info -------------------------)
+show_separator = 
 
 
 $(call show_separator)
-$(info Arduino.mk Configuration:)
+#$(info Arduino.mk Configuration:)
 
 ifndef ARDUINO_DIR
     AUTO_ARDUINO_DIR := $(firstword \
@@ -777,9 +780,10 @@ $(OBJDIR)/%.o: $(ARDUINO_CORE_PATH)/%.cpp
 # various object conversions
 $(OBJDIR)/%.hex: $(OBJDIR)/%.elf
 	$(OBJCOPY) -O ihex -R .eeprom $< $@
-	@echo
-	@echo
-	$(call avr_size,$<,$@)
+
+#@echo
+#@echo
+#$(call avr_size,$<,$@)
 
 $(OBJDIR)/%.eep: $(OBJDIR)/%.elf
 	-$(OBJCOPY) -j .eeprom --set-section-flags=.eeprom="alloc,load" \
@@ -832,7 +836,7 @@ $(OBJDIR):
 		mkdir $(OBJDIR)
 
 $(TARGET_ELF): 	$(LOCAL_OBJS) $(CORE_LIB) $(OTHER_OBJS)
-		$(CC) $(LDFLAGS) -o $@ $(LOCAL_OBJS) $(CORE_LIB) $(OTHER_OBJS) -lc -lm
+		$(CC) $(LDFLAGS) -o $@ $(LOCAL_OBJS) $(CORE_LIB) $(OTHER_OBJS) -lm
 
 $(CORE_LIB):	$(CORE_OBJS) $(LIB_OBJS) $(USER_LIB_OBJS)
 		$(AR) rcs $@ $(CORE_OBJS) $(LIB_OBJS) $(USER_LIB_OBJS)
